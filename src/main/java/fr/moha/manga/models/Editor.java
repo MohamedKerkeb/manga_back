@@ -1,5 +1,7 @@
 package fr.moha.manga.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +24,9 @@ public class Editor {
      @OneToMany(
              mappedBy = "editor"
      )
-    private List<Manga> mangaList = new ArrayList<>();
+//     @JsonIgnoreProperties("manga")
+     @JsonBackReference
+     private List<Manga> mangaList = new ArrayList<>();
 
     public Editor(String name, String link) {
         this.name = name;

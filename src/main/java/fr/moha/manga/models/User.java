@@ -1,5 +1,6 @@
 package fr.moha.manga.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +59,7 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tome_id")
     )
+    @JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
 
     @Column(name = "date_of_birth")

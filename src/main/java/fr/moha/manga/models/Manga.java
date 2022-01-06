@@ -1,6 +1,9 @@
 package fr.moha.manga.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -31,25 +34,19 @@ public class Manga {
     @Column(name = "date_of_end")
     private Date endDate;
 
-
-    public List<Tome> getTomeList() {
-        return tomeList;
-    }
-
-    public void setTomeList(List<Tome> tomeList) {
-        this.tomeList = tomeList;
-    }
-
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER
     )
     @JoinColumn(name = "manga_id")
+//    @JsonIgnoreProperties("tome")
+    @JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnoreProperties("author")
     private Author author;
 
     @ManyToMany(
@@ -59,6 +56,8 @@ public class Manga {
 
     @ManyToOne
     @JoinColumn(name = "editor_id")
+//    @JsonIgnoreProperties("editor")
+    @JsonManagedReference
     private Editor editor ;
 
 
@@ -152,6 +151,14 @@ public class Manga {
 
     public void setEditor(Editor editor) {
         this.editor = editor;
+    }
+
+    public List<Tome> getTomeList() {
+        return tomeList;
+    }
+
+    public void setTomeList(List<Tome> tomeList) {
+        this.tomeList = tomeList;
     }
 
     @Override

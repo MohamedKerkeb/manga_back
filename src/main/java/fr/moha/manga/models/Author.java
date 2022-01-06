@@ -1,5 +1,7 @@
 package fr.moha.manga.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +26,8 @@ public class Author {
     @OneToMany(
             mappedBy = "author"
     )
+//    @JsonIgnoreProperties("manga")
+    @JsonBackReference
     private List<Manga> mangaList = new ArrayList<>();
 
     public Author(String lastName, String firstName) {
