@@ -21,13 +21,13 @@ import java.util.List;
 //@Getter @Setter
 //@NoArgsConstructor
 @DynamicUpdate
-@Table(name = "user")
+@Table(name = "client")
 public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private int id;
+    @Column(name = "client_id")
+    private Long id;
     private String username;
     private String email;
     private String password;
@@ -55,9 +55,9 @@ public class User  {
         }
     )
     @JoinTable(
-            name = "user_tome",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "tome_id")
+            name = "client_tome",
+            joinColumns = @JoinColumn(name = "id_client"),
+            inverseJoinColumns = @JoinColumn(name = "id_tome")
     )
     @JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
@@ -80,11 +80,11 @@ public class User  {
     public User() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -2,6 +2,8 @@ package fr.moha.manga.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,11 +35,13 @@ public class Tome {
     @JsonBackReference
     private List<User> userList = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manga_id")
-//    @JsonIgnore
-    @JsonBackReference
+    @JsonIgnoreProperties({"titleEn", "titleJp", "cover","synopsis","releaseDate","endDate","author","typeList","editor"})
+   // @JsonBackReference
     private Manga manga;
+    //@JsonIgnore
+    //@JsonProperty(value = "manga_id")
 
 
     public Tome(int number, int nop, String cover, Date date_release) {

@@ -3,10 +3,7 @@ package fr.moha.manga.controllers;
 import fr.moha.manga.models.Tome;
 import fr.moha.manga.services.TomeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
@@ -24,6 +21,12 @@ public class TomeController {
     public Iterable<Tome> recentTomes() {
         System.out.println(tomeService.getTomeByDate());
         return tomeService.getTomeByDate();
+    }
+
+    @GetMapping("/{manga_id}")
+    private Iterable<Tome> findByMangaId(@PathVariable int manga_id) {
+        Iterable<Tome> tomes = tomeService.getTomeByMangaId(manga_id);
+        return tomes;
     }
 
 //    private Tome findTomeByDate() {

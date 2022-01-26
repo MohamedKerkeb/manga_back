@@ -29,11 +29,17 @@ public class MangaService {
         mangaRepository.deleteById(id);
     }
 
-    public void addNewManga(Manga manga) {
+    public Manga addNewManga(Manga manga) {
         Optional<Manga> mangaOptional = mangaRepository.findByTitleEn(manga.getTitleEn());
         if(mangaOptional.isPresent()) {
             throw new IllegalStateException("manga exist");
         }
         mangaRepository.save(manga);
+        return manga;
+    }
+
+    public Optional<Manga> getMangaByTitle(String manga_title) {
+        Optional<Manga> mangas = mangaRepository.findByTitleEn(manga_title);
+        return mangas;
     }
 }

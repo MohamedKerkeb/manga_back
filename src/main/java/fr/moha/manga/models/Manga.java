@@ -4,6 +4,7 @@ package fr.moha.manga.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -40,9 +41,11 @@ public class Manga {
             fetch = FetchType.EAGER
     )
     @JoinColumn(name = "manga_id")
-//    @JsonIgnoreProperties("tome")
-    @JsonManagedReference
+   //@JsonIgnore
+    @JsonIgnoreProperties({"manga"})
+    //@JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
+
 
     @ManyToOne
     @JoinColumn
@@ -56,7 +59,7 @@ public class Manga {
 
     @ManyToOne
     @JoinColumn(name = "editor_id")
-//    @JsonIgnoreProperties("editor")
+//   @JsonIgnoreProperties("editor")
     @JsonManagedReference
     private Editor editor ;
 
@@ -68,6 +71,20 @@ public class Manga {
         this.synopsis = synopsis;
         this.releaseDate = releaseDate;
         this.endDate = endDate;
+    }
+
+    public Manga(int id, String titleEn, String titleJp, String cover, String synopsis, Date releaseDate, Date endDate, List<Tome> tomeList, Author author, List<Type> typeList, Editor editor) {
+        this.id = id;
+        this.titleEn = titleEn;
+        this.titleJp = titleJp;
+        this.cover = cover;
+        this.synopsis = synopsis;
+        this.releaseDate = releaseDate;
+        this.endDate = endDate;
+        this.tomeList = tomeList;
+        this.author = author;
+        this.typeList = typeList;
+        this.editor = editor;
     }
 
     public Manga() {
@@ -129,6 +146,14 @@ public class Manga {
         this.endDate = endDate;
     }
 
+    public List<Tome> getTomeList() {
+        return tomeList;
+    }
+
+    public void setTomeList(List<Tome> tomeList) {
+        this.tomeList = tomeList;
+    }
+
     public Author getAuthor() {
         return author;
     }
@@ -151,14 +176,6 @@ public class Manga {
 
     public void setEditor(Editor editor) {
         this.editor = editor;
-    }
-
-    public List<Tome> getTomeList() {
-        return tomeList;
-    }
-
-    public void setTomeList(List<Tome> tomeList) {
-        this.tomeList = tomeList;
     }
 
     @Override
