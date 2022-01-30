@@ -8,12 +8,11 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 @Entity
@@ -21,30 +20,22 @@ import java.util.List;
 //@Getter @Setter
 //@NoArgsConstructor
 @DynamicUpdate
-@Table(name = "client")
+@Table(name = "users")
 public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
     private Long id;
+
+    @NotBlank
+    @Size(max = 120, min = 3)
     private String username;
+    @NotBlank
+    @Email
     private String email;
+    @NotBlank
+    @Size(max = 120)
     private String password;
-    @Column(name = "last_name")
-    private String lastName;
-    @Column(name = "first_name")
-    private String firstName;
-
-
-    public List<Tome> getTomeList() {
-        return tomeList;
-    }
-
-    public void setTomeList(List<Tome> tomeList) {
-        this.tomeList = tomeList;
-    }
-
     @OneToOne
     @JoinColumn(name = "avatar_id")
     private Avatar avatar;
@@ -55,29 +46,41 @@ public class User  {
         }
     )
     @JoinTable(
-            name = "client_tome",
-            joinColumns = @JoinColumn(name = "id_client"),
-            inverseJoinColumns = @JoinColumn(name = "id_tome")
+            name = "user_tome",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tome_id")
     )
     @JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
 
     @Column(name = "date_of_birth")
     private Date dob;
-//    @Transient
-//    private Integer age;
 
-    public User(String username, String email, String password, String lastName, String firstName, Avatar avatar, Date dob) {
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+
+    public User() {
+    }
+
+    public User(String username, String email, String password, Avatar avatar, List<Tome> tomeList, Date dob) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.lastName = lastName;
-        this.firstName = firstName;
         this.avatar = avatar;
+        this.tomeList = tomeList;
         this.dob = dob;
     }
 
-    public User() {
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public Long getId() {
@@ -112,22 +115,6 @@ public class User  {
         this.password = password;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public Avatar getAvatar() {
         return avatar;
     }
@@ -144,27 +131,19 @@ public class User  {
         this.dob = dob;
     }
 
-//    public Integer getAge() {
-//        return Period.between(this.dob, LocalDate.now()).getYears();
-//    }
-//
-//    public void setAge(Integer age) {
-//        this.age = age;
-//    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", avatar=" + avatar +
-                ", dob=" + dob +
-                '}';
+    public List<Tome> getTomeList() {
+        return tomeList;
     }
 
+    public void setTomeList(List<Tome> tomeList) {
+        this.tomeList = tomeList;
+    }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }

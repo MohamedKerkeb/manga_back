@@ -7,6 +7,7 @@ import fr.moha.manga.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    // @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+
 
     /**
      * Create -add a new user
@@ -38,6 +42,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Iterable<User>> findAllUser() {
         Iterable<User> users = userService.getAllUser();
         return new ResponseEntity<>(users, HttpStatus.OK);
@@ -49,6 +54,7 @@ public class UserController {
      * @return An user object full filled
      */
     @GetMapping("/{user_id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<User> getUserById(@PathVariable("user_id") final Long id) {
         Optional<User> user = userService.findUserById(id);
         if(user.isPresent()) {
@@ -59,12 +65,14 @@ public class UserController {
     }
 
     @PutMapping("/{user_id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<User> updateUser(@PathVariable final Long id, @RequestBody User user) {
         User updateUser = userService.updateUser(id, user);
         return new ResponseEntity<>(updateUser,HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{user_id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable("user_id") final Long user_id) {
         userService.deleteUserById(user_id);
         return new ResponseEntity<>(HttpStatus.OK);

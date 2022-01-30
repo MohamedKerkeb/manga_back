@@ -56,14 +56,6 @@ public class UserService {
             if( username != null ) {
                 currentUser.setUsername(username);
             }
-            String firstname =  user.getFirstName();
-            if(firstname !=  null ) {
-                currentUser.setFirstName(firstname);
-            }
-            String lastname = user.getLastName();
-            if(lastname != null) {
-                currentUser.setLastName(lastname);
-            }
             String mail = user.getEmail();
             if(mail != null) {
                 currentUser.setEmail(mail);

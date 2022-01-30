@@ -28,12 +28,11 @@ public class Manga {
     @Column(name = "title_original")
     private String titleJp;
     private String cover;
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String synopsis;
-    @Column(name = "release_date")
-    private Date releaseDate;
-    @Column(name = "date_of_end")
-    private Date endDate;
+    @Column(name = "year")
+    private String year;
+
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -41,7 +40,7 @@ public class Manga {
             fetch = FetchType.EAGER
     )
     @JoinColumn(name = "manga_id")
-   //@JsonIgnore
+    //@JsonIgnore
     @JsonIgnoreProperties({"manga"})
     //@JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
@@ -61,29 +60,28 @@ public class Manga {
     @JoinColumn(name = "editor_id")
 //   @JsonIgnoreProperties("editor")
     @JsonManagedReference
-    private Editor editor ;
+    private Editor editor;
 
 
-    public Manga(String titleEn, String titleJp, String cover, String synopsis, Date releaseDate, Date endDate) {
+    public Manga(String titleEn, String titleJp, String cover, String synopsis, String year, List<Tome> tomeList, Author author, List<Type> typeList, Editor editor) {
         this.titleEn = titleEn;
         this.titleJp = titleJp;
         this.cover = cover;
         this.synopsis = synopsis;
-        this.releaseDate = releaseDate;
-        this.endDate = endDate;
-    }
-
-    public Manga(int id, String titleEn, String titleJp, String cover, String synopsis, Date releaseDate, Date endDate, List<Tome> tomeList, Author author, List<Type> typeList, Editor editor) {
-        this.id = id;
-        this.titleEn = titleEn;
-        this.titleJp = titleJp;
-        this.cover = cover;
-        this.synopsis = synopsis;
-        this.releaseDate = releaseDate;
-        this.endDate = endDate;
+        this.year = year;
         this.tomeList = tomeList;
         this.author = author;
         this.typeList = typeList;
+        this.editor = editor;
+    }
+
+    public Manga(String titleEn, String titleJp, String cover, String synopsis, String year, Author author, Editor editor) {
+        this.titleEn = titleEn;
+        this.titleJp = titleJp;
+        this.cover = cover;
+        this.synopsis = synopsis;
+        this.year = year;
+        this.author = author;
         this.editor = editor;
     }
 
@@ -130,20 +128,12 @@ public class Manga {
         this.synopsis = synopsis;
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
+    public String getYear() {
+        return year;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public List<Tome> getTomeList() {
@@ -178,16 +168,4 @@ public class Manga {
         this.editor = editor;
     }
 
-    @Override
-    public String toString() {
-        return "Manga{" +
-                "id=" + id +
-                ", titleEn='" + titleEn + '\'' +
-                ", titleJp='" + titleJp + '\'' +
-                ", cover='" + cover + '\'' +
-                ", synopsis='" + synopsis + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", endDate=" + endDate +
-                '}';
-    }
 }
