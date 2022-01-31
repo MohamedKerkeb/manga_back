@@ -36,15 +36,6 @@ public class User  {
     @Column(name = "first_name")
     private String firstName;
 
-
-    public List<Tome> getTomeList() {
-        return tomeList;
-    }
-
-    public void setTomeList(List<Tome> tomeList) {
-        this.tomeList = tomeList;
-    }
-
     @OneToOne
     @JoinColumn(name = "avatar_id")
     private Avatar avatar;
@@ -142,6 +133,14 @@ public class User  {
 
     public void setDob(Date dob) {
         this.dob = dob;
+    }
+
+    public List<Tome> getTomeList() {
+        return tomeList;
+    }
+
+    public void setTomeList(List<Tome> tomeList) {
+        this.tomeList = tomeList;
     }
 
 //    public Integer getAge() {

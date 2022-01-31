@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface TomeRespository extends CrudRepository<Tome, Integer> {
 
-    @Query("SELECT t FROM Tome t WHERE t.date_release > ?1  ")
+    @Query("SELECT t FROM Tome t WHERE t.date_release > ?1 ORDER BY t.date_release ASC ")
     Iterable<Tome> findByDate_release( Date date);
 
     //Optional<Tome> findByNumber(Integer number);

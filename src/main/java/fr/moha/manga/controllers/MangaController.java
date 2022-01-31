@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/manga")
 public class MangaController {
@@ -30,8 +30,6 @@ public class MangaController {
         mangaService.addNewManga(manga);
     }
 
-
-
     @GetMapping("/{manga_id}")
     private Manga findMangaById(@PathVariable Integer manga_id) {
         Optional<Manga> manga =  mangaService.getMangaById(manga_id);
@@ -41,7 +39,6 @@ public class MangaController {
             return null;
         }
     }
-
 
     @DeleteMapping("/delete/{manga_id}")
     public void deleteManga(@PathVariable("manga_id") final Integer manga_id) {

@@ -16,6 +16,7 @@ public class TomeService {
 
     public Iterable<Tome> getAllTome() {
         Iterable<Tome> tomes = respository.findAll();
+        System.out.println(tomes);
         return tomes;
     }
 
@@ -33,7 +34,7 @@ public class TomeService {
 
 
     public Iterable<Tome> getTomeByDate() {
-        Iterable<Tome> tomes = respository.findByDate_release(Date.valueOf("2021-12-01"));
+        Iterable<Tome> tomes = respository.findByDate_release(Date.valueOf("2021-05-01"));
         return tomes;
     }
 }

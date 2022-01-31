@@ -37,11 +37,11 @@ public class Manga {
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "manga_id")
-//    @JsonIgnoreProperties("tome")
-    @JsonManagedReference
+    // @JsonIgnoreProperties("tome")
+//  @JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
 
     @ManyToOne
