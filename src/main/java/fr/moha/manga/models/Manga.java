@@ -4,6 +4,7 @@ package fr.moha.manga.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,22 +28,23 @@ public class Manga {
     @Column(name = "title_original")
     private String titleJp;
     private String cover;
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String synopsis;
-    @Column(name = "release_date")
-    private Date releaseDate;
-    @Column(name = "date_of_end")
-    private Date endDate;
+    @Column(name = "year")
+    private String year;
+
 
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     @JoinColumn(name = "manga_id")
-    // @JsonIgnoreProperties("tome")
-//  @JsonManagedReference
+    //@JsonIgnore
+    @JsonIgnoreProperties({"manga"})
+    //@JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
+
 
     @ManyToOne
     @JoinColumn
@@ -56,18 +58,31 @@ public class Manga {
 
     @ManyToOne
     @JoinColumn(name = "editor_id")
-//    @JsonIgnoreProperties("editor")
+//   @JsonIgnoreProperties("editor")
     @JsonManagedReference
-    private Editor editor ;
+    private Editor editor;
 
 
-    public Manga(String titleEn, String titleJp, String cover, String synopsis, Date releaseDate, Date endDate) {
+    public Manga(String titleEn, String titleJp, String cover, String synopsis, String year, List<Tome> tomeList, Author author, List<Type> typeList, Editor editor) {
         this.titleEn = titleEn;
         this.titleJp = titleJp;
         this.cover = cover;
         this.synopsis = synopsis;
-        this.releaseDate = releaseDate;
-        this.endDate = endDate;
+        this.year = year;
+        this.tomeList = tomeList;
+        this.author = author;
+        this.typeList = typeList;
+        this.editor = editor;
+    }
+
+    public Manga(String titleEn, String titleJp, String cover, String synopsis, String year, Author author, Editor editor) {
+        this.titleEn = titleEn;
+        this.titleJp = titleJp;
+        this.cover = cover;
+        this.synopsis = synopsis;
+        this.year = year;
+        this.author = author;
+        this.editor = editor;
     }
 
     public Manga() {
@@ -113,20 +128,20 @@ public class Manga {
         this.synopsis = synopsis;
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
+    public String getYear() {
+        return year;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setYear(String year) {
+        this.year = year;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public List<Tome> getTomeList() {
+        return tomeList;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setTomeList(List<Tome> tomeList) {
+        this.tomeList = tomeList;
     }
 
     public Author getAuthor() {
@@ -153,13 +168,7 @@ public class Manga {
         this.editor = editor;
     }
 
-    public List<Tome> getTomeList() {
-        return tomeList;
-    }
 
-    public void setTomeList(List<Tome> tomeList) {
-        this.tomeList = tomeList;
-    }
 
     @Override
     public String toString() {
@@ -169,8 +178,6 @@ public class Manga {
                 ", titleJp='" + titleJp + '\'' +
                 ", cover='" + cover + '\'' +
                 ", synopsis='" + synopsis + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", endDate=" + endDate +
                 '}';
     }
 }

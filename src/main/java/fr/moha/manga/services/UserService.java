@@ -29,22 +29,24 @@ public class UserService {
      * @param id
      * @return un user
      */
-    public Optional<User> getUserById(Integer id) {
+    public Optional<User> findUserById(Long id) {
         return userRepository.findById(id);
     }
 
     /**
-     * creattion un user
+     * creation un user
+     * @return
      */
-    public void addNewUser(User user) {
+    public User addNewUser(User user) {
         Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
         if(userOptional.isPresent()) {
             throw new IllegalStateException("email exist");
         }
         userRepository.save(user);
+        return user;
     }
 
-    public void updateUser(Integer id, User user) {
+    public User updateUser(Long id, User user) {
        //  User userRepo = userRepository.findById(user.getId());
         Optional<User>  u = userRepository.findById(id);
         if(u.isPresent()) {
@@ -53,14 +55,6 @@ public class UserService {
             String username = user.getUsername();
             if( username != null ) {
                 currentUser.setUsername(username);
-            }
-            String firstname =  user.getFirstName();
-            if(firstname !=  null ) {
-                currentUser.setFirstName(firstname);
-            }
-            String lastname = user.getLastName();
-            if(lastname != null) {
-                currentUser.setLastName(lastname);
             }
             String mail = user.getEmail();
             if(mail != null) {
@@ -74,13 +68,14 @@ public class UserService {
         } else {
             throw new IllegalStateException("impossible update user");
         }
+        return user;
     }
 
     /**
      * delete un user by id
      * @param id
      */
-    public void deleteUserById(Integer id) {
+    public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 
