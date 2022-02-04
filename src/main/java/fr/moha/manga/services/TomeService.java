@@ -41,5 +41,4 @@ public class TomeService {
         Iterable<Tome> tomes = respository.findAllByMangaId(id);
         return tomes;
     }
-
 }

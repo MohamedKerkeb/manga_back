@@ -10,9 +10,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/manga")
 public class MangaController {
@@ -21,9 +22,17 @@ public class MangaController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<Iterable<Manga>> findAllManga() {
-        Iterable<Manga> mangas = mangaService.getAllManga();
-        return new ResponseEntity<>(mangas, HttpStatus.OK);
+    // @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Manga>> findAllManga() {
+        //return mangaService.getAllManga();
+        List<Manga> mangas = mangaService.getAllManga();
+        if(mangas.isEmpty() || mangas == null ) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+
+            return new ResponseEntity<>(mangas, HttpStatus.OK);
+        }
+
     }
 
 //    @GetMapping("/search/{title}")
@@ -45,8 +54,6 @@ public class MangaController {
        return new ResponseEntity<>(newManga, HttpStatus.CREATED);
     }
 
-
-
     @GetMapping("/{manga_id}")
     //@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Manga> findMangaById(@PathVariable Integer manga_id) {
@@ -58,7 +65,6 @@ public class MangaController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
     @DeleteMapping("/delete/{manga_id}")
     @PreAuthorize("hasRole('ADMIN')")

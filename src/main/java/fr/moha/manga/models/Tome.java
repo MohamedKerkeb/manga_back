@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -45,11 +46,13 @@ public class Tome {
     //@JsonProperty(value = "manga_id")
 
 
-    public Tome(int number, int nop, String cover, Date date_release) {
+
+    public Tome(int number, int nop, String cover, Date date_release, Manga manga) {
         this.number = number;
         this.nop = nop;
         this.cover = cover;
         this.date_release = date_release;
+        this.manga = manga;
     }
 
     public Tome() {

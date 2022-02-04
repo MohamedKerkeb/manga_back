@@ -168,4 +168,16 @@ public class Manga {
         this.editor = editor;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "Manga{" +
+                "id=" + id +
+                ", titleEn='" + titleEn + '\'' +
+                ", titleJp='" + titleJp + '\'' +
+                ", cover='" + cover + '\'' +
+                ", synopsis='" + synopsis + '\'' +
+                '}';
+    }
 }
