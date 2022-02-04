@@ -19,14 +19,14 @@ public class TomeController {
     }
 
     @GetMapping(path = "/recents")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public Iterable<Tome> recentTomes() {
         System.out.println(tomeService.getTomeByDate());
         return tomeService.getTomeByDate();
     }
 
     @GetMapping("/{manga_id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     private Iterable<Tome> findByMangaId(@PathVariable int manga_id) {
         Iterable<Tome> tomes = tomeService.getTomeByMangaId(manga_id);
         return tomes;

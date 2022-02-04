@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class  AuthController {
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -82,9 +82,13 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
+        User user = new User(
+                signUpRequest.getUsername(),
+                signUpRequest.getDob(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword())
+        );
+
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -116,6 +120,7 @@ public class AuthController {
             });
         }
 
+        System.out.println(user.getDob());
         user.setRoles(roles);
         userRepository.save(user);
 

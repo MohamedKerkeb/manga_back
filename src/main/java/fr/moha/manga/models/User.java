@@ -1,17 +1,12 @@
 package fr.moha.manga.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Period;
+import java.util.Date;
 import java.util.*;
 
 
@@ -24,7 +19,7 @@ import java.util.*;
 public class User  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank
@@ -50,6 +45,7 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tome_id")
     )
+    @JsonIgnoreProperties({"titleEn","titleJp","synopsis","year","endDate","author","typeList","editor","tomeList"})
     @JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
 
@@ -81,7 +77,16 @@ public class User  {
         this.username = username;
         this.email = email;
         this.password = password;
+
     }
+
+    public User(String username, Date dob, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.dob = dob;
+    }
+
 
     public Long getId() {
         return id;
@@ -146,4 +151,7 @@ public class User  {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public void addTome(Tome tome) { tomeList.add(tome);}
+    public void removeTome(Tome tome) { tomeList.remove(tome);}
 }

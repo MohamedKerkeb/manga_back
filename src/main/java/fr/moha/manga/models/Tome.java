@@ -33,13 +33,14 @@ public class Tome {
             mappedBy = "tomeList"
     )
     @JsonBackReference
+    //@JsonIgnoreProperties("manga")
     private List<User> userList = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manga_id")
-    @JsonIgnoreProperties({"titleEn", "titleJp", "cover","synopsis","releaseDate","endDate","author","typeList","editor"})
-   // @JsonBackReference
+    @JsonIgnoreProperties({"titleEn", "titleJp", "cover","synopsis","year","endDate","author","typeList","editor","tomeList"})
     private Manga manga;
+    // @JsonBackReference
     //@JsonIgnore
     //@JsonProperty(value = "manga_id")
 

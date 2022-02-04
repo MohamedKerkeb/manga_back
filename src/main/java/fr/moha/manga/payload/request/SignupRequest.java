@@ -1,12 +1,15 @@
 package fr.moha.manga.payload.request;
 
 import javax.validation.constraints.*;
+import java.util.Date;
 import java.util.Set;
 
 public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
+
+    private Date dob;
 
     @NotBlank
     @Size(max = 50)
@@ -49,5 +52,13 @@ public class SignupRequest {
 
     public void setRole(Set<String> role) {
         this.role = role;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 }

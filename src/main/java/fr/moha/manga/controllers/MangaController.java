@@ -21,7 +21,7 @@ public class MangaController {
 
 
     @GetMapping("/all")
-    private ResponseEntity<Iterable<Manga>> findAllManga() {
+    public ResponseEntity<Iterable<Manga>> findAllManga() {
         Iterable<Manga> mangas = mangaService.getAllManga();
         return new ResponseEntity<>(mangas, HttpStatus.OK);
     }
@@ -40,7 +40,7 @@ public class MangaController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
-    private ResponseEntity<Manga> createManga(@Validated @RequestBody Manga manga) {
+    public ResponseEntity<Manga> createManga(@Validated @RequestBody Manga manga) {
         Manga newManga = mangaService.addNewManga(manga);
        return new ResponseEntity<>(newManga, HttpStatus.CREATED);
     }
@@ -48,8 +48,8 @@ public class MangaController {
 
 
     @GetMapping("/{manga_id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    private ResponseEntity<Manga> findMangaById(@PathVariable Integer manga_id) {
+    //@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Manga> findMangaById(@PathVariable Integer manga_id) {
         Optional<Manga> mangaOptional =  mangaService.getMangaById(manga_id);
 
         if(mangaOptional.isPresent()) {
