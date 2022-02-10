@@ -1,5 +1,6 @@
 package fr.moha.manga.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.DynamicUpdate;
@@ -45,7 +46,7 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tome_id")
     )
-    @JsonIgnoreProperties({"titleEn","titleJp","synopsis","year","endDate","author","typeList","editor","tomeList"})
+
     @JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
 
@@ -80,12 +81,14 @@ public class User  {
 
     }
 
-    public User(String username, Date dob, String email, String password) {
+    public User(String username, Date dob, Avatar avatar, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.dob = dob;
+        this.avatar = avatar;
     }
+
 
 
     public Long getId() {

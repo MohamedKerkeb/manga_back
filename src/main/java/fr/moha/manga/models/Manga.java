@@ -41,7 +41,7 @@ public class Manga {
     )
     @JoinColumn(name = "manga_id")
     //@JsonIgnore
-    @JsonIgnoreProperties({"titleEn", "titleJp", "cover","synopsis","year","endDate","author","typeList","editor","tomeList"})
+    @JsonIgnoreProperties({"titleEn", "titleJp","synopsis","year","endDate","author","typeList","editor","tomeList"})
     //@JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
 

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/manga")
+@RequestMapping("api/manga")
 public class MangaController {
     @Autowired
     private MangaService mangaService;

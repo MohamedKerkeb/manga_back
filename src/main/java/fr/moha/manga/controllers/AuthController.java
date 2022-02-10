@@ -60,6 +60,8 @@ public class  AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+
+
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
@@ -85,6 +87,7 @@ public class  AuthController {
         User user = new User(
                 signUpRequest.getUsername(),
                 signUpRequest.getDob(),
+                signUpRequest.getAvatar(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword())
         );
@@ -120,10 +123,10 @@ public class  AuthController {
             });
         }
 
-        System.out.println(user.getDob());
+
         user.setRoles(roles);
         userRepository.save(user);
-
+        System.out.println(user.getRoles());
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

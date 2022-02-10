@@ -1,5 +1,7 @@
 package fr.moha.manga.payload.request;
 
+import fr.moha.manga.models.Avatar;
+
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Set;
@@ -10,6 +12,8 @@ public class SignupRequest {
     private String username;
 
     private Date dob;
+
+    private Avatar avatar;
 
     @NotBlank
     @Size(max = 50)
@@ -61,4 +65,8 @@ public class SignupRequest {
     public void setDob(Date dob) {
         this.dob = dob;
     }
+
+    public Avatar getAvatar() { return avatar; }
+
+    public void setAvatar(Avatar avatar) { this.avatar = avatar; }
 }

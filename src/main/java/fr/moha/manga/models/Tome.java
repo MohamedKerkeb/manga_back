@@ -34,7 +34,6 @@ public class Tome {
             mappedBy = "tomeList"
     )
     @JsonBackReference
-    //@JsonIgnoreProperties("manga")
     private List<User> userList = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
