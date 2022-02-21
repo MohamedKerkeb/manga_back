@@ -19,8 +19,11 @@ public class TomeService {
         return tomes;
     }
 
-    public Optional<Tome> getTomeById(Integer id) {
-        return respository.findById(id);
+    public Tome getTomeById(Integer id) {
+        var optTome = respository.findById(id);
+
+        return optTome.get();
+
     }
 
 //    public void addNewTome(Tome tome) {

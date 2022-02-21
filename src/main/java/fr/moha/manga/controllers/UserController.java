@@ -5,6 +5,7 @@ import fr.moha.manga.dto.UserDto;
 import fr.moha.manga.models.Tome;
 import fr.moha.manga.models.User;
 import fr.moha.manga.repositories.UserRepository;
+import fr.moha.manga.services.TomeService;
 import fr.moha.manga.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private TomeService tomeService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -95,22 +98,10 @@ public class UserController {
         return ResponseEntity.ok().body(userResponse);
     }
 
-    /**
-     * Get All tomes of one user
-     * @param user_id
-     * @return
-     */
-    @GetMapping(value = "/{user_id}/tomes")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<ArrayList<Tome>> getTomesOfUser(@PathVariable Long user_id) {
-        try{
-            User user = userService.findUserById(user_id);
-            return ResponseEntity.ok().body(userService.getTomeOfUser(user));
-        } catch (Exception exception) {
-            log.error(String.valueOf(exception));
-            return ResponseEntity.notFound().build();
-        }
-    }
+
+
+
+    // TODO Améliorer l'update du user
 
 
     /**
@@ -131,5 +122,30 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable("user_id") final Long user_id) {
         userService.deleteUserById(user_id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    /**
+     * Get All tomes of one user
+     * @param user_id
+     * @return
+     */
+    @GetMapping(value = "/{user_id}/tomes")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<ArrayList<Tome>> getTomesOfUser(@PathVariable Long user_id) {
+        try{
+            User user = userService.findUserById(user_id);
+            return ResponseEntity.ok().body(userService.getTomeOfUser(user));
+        } catch (Exception exception) {
+            log.error(String.valueOf(exception));
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/add/{user_id}/{tome_id}")
+    public ResponseEntity<Tome> addTomeOfUserLibrary(@PathVariable Long user_id, @PathVariable int tome_id) {
+        Tome tomeForAdd = tomeService.getTomeById(tome_id);
+        userService.addTomeInLibrary(user_id, tomeForAdd.getId());
+        return ResponseEntity.ok(tomeForAdd);
     }
 }

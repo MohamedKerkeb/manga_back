@@ -15,7 +15,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TomeService tomeService;
+
     // private User user;
+
+    /* ######################################################################### */
+    /* Gestion du User */
+    /* ######################################################################### */
 
     /**
      *  Return all User
@@ -53,14 +60,6 @@ public class UserService {
         }
         userRepository.save(user);
         return user;
-    }
-
-    public ArrayList<Tome> getTomeOfUser(User user){
-        try{
-            return new ArrayList<Tome>(user.getTomeList());
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
     }
 
     /**
@@ -102,4 +101,43 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    /* ################################################################################## */
+     /* Gestion des tomes */
+     /* ################################################################################ */
+
+    /**
+     * Tomes de l'user
+     * @param user
+     * @return
+     */
+    public ArrayList<Tome> getTomeOfUser(User user){
+        try{
+            return new ArrayList<Tome>(user.getTomeList());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Ajouter un tome dans la bibliothèque
+     * @param user_id
+     * @param tome_id
+     */
+    public void addTomeInLibrary(Long user_id,int tome_id ) {
+        User user = this.findUserById(user_id);
+        Tome tome = tomeService.getTomeById(tome_id);
+        if(!this.hasTome(user, tome)) {
+            user.addTome(tome);
+            userRepository.save(user);
+        }
+    }
+
+
+    public Boolean hasTome(User user, Tome tome) {
+        for( Tome tomeUser: user.getTomeList()) {
+            if(tomeUser.getId() == tome.getId()) return true;
+        }
+        return false;
+    }
 }
