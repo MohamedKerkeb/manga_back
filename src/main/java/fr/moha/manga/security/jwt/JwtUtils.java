@@ -24,9 +24,17 @@ public class JwtUtils {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
+        Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
+
+        claims.put("userId", userPrincipal.getId());
+
+        /**
+         * .setSubject(String.valueOf((userPrincipal.getId())))
+         * .setSubject((userPrincipal.getUsername()))
+         */
+
         return Jwts.builder()
-                .setSubject(String.valueOf((userPrincipal.getId())))
-                .setSubject((userPrincipal.getUsername()))
+                .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

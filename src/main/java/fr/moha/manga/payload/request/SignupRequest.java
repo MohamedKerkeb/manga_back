@@ -13,7 +13,7 @@ public class SignupRequest {
 
     private Date dob;
 
-    private Avatar avatar;
+    private int avatarId;
 
     @NotBlank
     @Size(max = 50)
@@ -66,7 +66,7 @@ public class SignupRequest {
         this.dob = dob;
     }
 
-    public Avatar getAvatar() { return avatar; }
+    public int getAvatarId() { return avatarId; }
 
-    public void setAvatar(Avatar avatar) { this.avatar = avatar; }
+    public void setAvatarId(int avatarId) { this.avatarId = avatarId; }
 }

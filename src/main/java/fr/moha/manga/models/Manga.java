@@ -1,15 +1,11 @@
 package fr.moha.manga.models;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +27,7 @@ public class Manga {
     @Column(columnDefinition = "TEXT")
     private String synopsis;
     @Column(name = "year")
-    private String year;
+    private Integer year;
 
 
     @OneToMany(
@@ -40,16 +36,14 @@ public class Manga {
             fetch = FetchType.EAGER
     )
     @JoinColumn(name = "manga_id")
-    //@JsonIgnore
     @JsonIgnoreProperties({"titleEn", "titleJp","synopsis","year","endDate","author","typeList","editor","tomeList"})
-    //@JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
-
+    //@JsonBackReference
 
     @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("author")
+    @JoinColumn(name = "author_id")
     private Author author;
+    //@JsonIgnoreProperties("author")
 
     @ManyToMany(
             mappedBy = "mangaList"
@@ -58,12 +52,11 @@ public class Manga {
 
     @ManyToOne
     @JoinColumn(name = "editor_id")
-//   @JsonIgnoreProperties("editor")
-    @JsonManagedReference
+    // @JsonManagedReference
     private Editor editor;
 
 
-    public Manga(String titleEn, String titleJp, String cover, String synopsis, String year, List<Tome> tomeList, Author author, List<Type> typeList, Editor editor) {
+    public Manga(String titleEn, String titleJp, String cover, String synopsis, Integer year, List<Tome> tomeList, Author author, List<Type> typeList, Editor editor) {
         this.titleEn = titleEn;
         this.titleJp = titleJp;
         this.cover = cover;
@@ -75,7 +68,7 @@ public class Manga {
         this.editor = editor;
     }
 
-    public Manga(String titleEn, String titleJp, String cover, String synopsis, String year, Author author, Editor editor) {
+    public Manga(String titleEn, String titleJp, String cover, String synopsis, Integer year, Author author, Editor editor) {
         this.titleEn = titleEn;
         this.titleJp = titleJp;
         this.cover = cover;
@@ -128,11 +121,11 @@ public class Manga {
         this.synopsis = synopsis;
     }
 
-    public String getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
@@ -167,6 +160,7 @@ public class Manga {
     public void setEditor(Editor editor) {
         this.editor = editor;
     }
+
 
 
 

@@ -24,7 +24,7 @@ public class Editor {
      @OneToMany(
              mappedBy = "editor"
      )
-//     @JsonIgnoreProperties("manga")
+//    @JsonIgnoreProperties("manga")
      @JsonBackReference
      private List<Manga> mangaList = new ArrayList<>();
 

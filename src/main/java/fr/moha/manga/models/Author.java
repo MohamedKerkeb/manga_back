@@ -26,7 +26,7 @@ public class Author {
     @OneToMany(
             mappedBy = "author"
     )
-//    @JsonIgnoreProperties("manga")
+    @JsonIgnoreProperties("manga")
     @JsonBackReference
     private List<Manga> mangaList = new ArrayList<>();
 

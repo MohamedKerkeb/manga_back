@@ -40,6 +40,7 @@ public class Tome {
     @JoinColumn(name = "manga_id")
     @JsonIgnoreProperties({"titleEn", "titleJp", "cover","synopsis","year","endDate","author","typeList","editor","tomeList"})
     private Manga manga;
+    //@JsonManagedReference
     // @JsonBackReference
     //@JsonIgnore
     //@JsonProperty(value = "manga_id")

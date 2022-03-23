@@ -24,9 +24,9 @@ public class MangaService {
         return mangaRepository.findById(id);
     }
 
-    public Manga createManga(Manga manga) {
-        return mangaRepository.save(manga);
-    }
+    // public Manga createManga(Manga manga) {
+      //  return mangaRepository.save(manga);
+    //}
 
     public void deleteMangaById(Integer id) {
         mangaRepository.deleteById(id);

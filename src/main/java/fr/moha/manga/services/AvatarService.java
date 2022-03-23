@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AvatarService {
@@ -18,6 +19,10 @@ public class AvatarService {
         List<Avatar> avatars = new ArrayList<>();
         repository.findAll().forEach(avatars::add);
         return avatars;
+    }
+
+    public Optional<Avatar> findById(int id) {
+        return repository.findById(id);
     }
 
 }

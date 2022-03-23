@@ -45,11 +45,11 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tome_id")
     )
-
-    @JsonManagedReference
+    //@JsonManagedReference
     private List<Tome> tomeList = new ArrayList<>();
 
     @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
     private Date dob;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -87,8 +87,6 @@ public class User  {
         this.dob = dob;
         this.avatar = avatar;
     }
-
-
 
     public Long getId() {
         return id;
@@ -156,4 +154,18 @@ public class User  {
 
     public void addTome(Tome tome) { tomeList.add(tome);}
     public void removeTome(Tome tome) { tomeList.remove(tome);}
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", avatar=" + avatar +
+                ", tomeList=" + tomeList +
+                ", dob=" + dob +
+                ", roles=" + roles +
+                '}';
+    }
 }

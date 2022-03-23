@@ -7,6 +7,7 @@ import fr.moha.manga.payload.request.LoginRequest;
 import fr.moha.manga.payload.request.SignupRequest;
 import fr.moha.manga.payload.response.JwtResponse;
 import fr.moha.manga.payload.response.MessageResponse;
+import fr.moha.manga.repositories.AvatarRepository;
 import fr.moha.manga.repositories.RoleRepository;
 import fr.moha.manga.repositories.UserRepository;
 import fr.moha.manga.security.jwt.JwtUtils;
@@ -41,6 +42,9 @@ public class  AuthController {
     RoleRepository roleRepository;
 
     @Autowired
+    AvatarRepository avatarRepository;
+
+    @Autowired
     PasswordEncoder encoder;
 
     @Autowired
@@ -59,7 +63,6 @@ public class  AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-
 
 
         return ResponseEntity.ok(new JwtResponse(jwt,
@@ -87,11 +90,12 @@ public class  AuthController {
         User user = new User(
                 signUpRequest.getUsername(),
                 signUpRequest.getDob(),
-                signUpRequest.getAvatar(),
+                avatarRepository.getById(signUpRequest.getAvatarId()),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword())
         );
 
+        System.out.println("user:" + user.toString());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
