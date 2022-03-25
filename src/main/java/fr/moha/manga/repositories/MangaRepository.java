@@ -15,4 +15,5 @@ public interface MangaRepository extends CrudRepository<Manga, Integer> {
     @Query("SELECT m FROM Manga m WHERE m.titleEn = ?1")
     Optional<Manga> findByTitleEn(String title);
 
+
 }

@@ -1,13 +1,11 @@
 package fr.moha.manga.models;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 //@Data
@@ -27,55 +25,60 @@ public class Manga {
     @Column(columnDefinition = "TEXT")
     private String synopsis;
     @Column(name = "year")
-    private Integer year;
+    private int year;
 
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(name = "manga_id")
-    @JsonIgnoreProperties({"titleEn", "titleJp","synopsis","year","endDate","author","typeList","editor","tomeList"})
-    private List<Tome> tomeList = new ArrayList<>();
+//    @OneToMany(
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.EAGER
+//    )
+//    @JoinColumn(name = "manga_id")
+//    @JsonIgnoreProperties({"titleEn", "titleJp","synopsis","year","endDate","authorId","typeList","editorId","tomeList"})
+//    private List<Tome> tomeList = new ArrayList<>();
     //@JsonBackReference
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Author author;
-    //@JsonIgnoreProperties("author")
+//    @ManyToOne(
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY
+//    )
+//    @JoinColumn(name = "authorId_id")
+//    private AuthorId authorId;
+    //@JsonIgnoreProperties("authorId")
+    private int authorId;
 
     @ManyToMany(
             mappedBy = "mangaList"
     )
     private List<Type> typeList = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "editor_id")
+//    @ManyToOne
+//    @JoinColumn(name = "editorId_id")
     // @JsonManagedReference
-    private Editor editor;
+//    private EditorId editorId;
+    private int editorId;
 
 
-    public Manga(String titleEn, String titleJp, String cover, String synopsis, Integer year, List<Tome> tomeList, Author author, List<Type> typeList, Editor editor) {
+    public Manga(String titleEn, String titleJp, String cover, String synopsis, Integer year,  int authorId, List<Type> typeList, int editorId) {
         this.titleEn = titleEn;
         this.titleJp = titleJp;
         this.cover = cover;
         this.synopsis = synopsis;
         this.year = year;
-        this.tomeList = tomeList;
-        this.author = author;
+//        this.tomeList = tomeList; List<Tome> tomeList,
+        this.authorId = authorId;
         this.typeList = typeList;
-        this.editor = editor;
+        this.editorId = editorId;
     }
 
-    public Manga(String titleEn, String titleJp, String cover, String synopsis, Integer year, Author author, Editor editor) {
+    public Manga(String titleEn, String titleJp, String cover, String synopsis, Integer year, int authorId, int editorId) {
         this.titleEn = titleEn;
         this.titleJp = titleJp;
         this.cover = cover;
         this.synopsis = synopsis;
         this.year = year;
-        this.author = author;
-        this.editor = editor;
+        this.authorId = authorId;
+        this.editorId = editorId;
     }
 
     public Manga() {
@@ -129,20 +132,20 @@ public class Manga {
         this.year = year;
     }
 
-    public List<Tome> getTomeList() {
-        return tomeList;
+//    public List<Tome> getTomeList() {
+//        return tomeList;
+//    }
+//
+//    public void setTomeList(List<Tome> tomeList) {
+//        this.tomeList = tomeList;
+//    }
+
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setTomeList(List<Tome> tomeList) {
-        this.tomeList = tomeList;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 
     public List<Type> getTypeList() {
@@ -153,12 +156,12 @@ public class Manga {
         this.typeList = typeList;
     }
 
-    public Editor getEditor() {
-        return editor;
+    public int getEditorId() {
+        return editorId;
     }
 
-    public void setEditor(Editor editor) {
-        this.editor = editor;
+    public void setEditorId(int editorId) {
+        this.editorId = editorId;
     }
 
 

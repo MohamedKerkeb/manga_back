@@ -1,12 +1,15 @@
 package fr.moha.manga.services;
 
+import fr.moha.manga.models.Avatar;
 import fr.moha.manga.models.Tome;
 import fr.moha.manga.models.User;
+import fr.moha.manga.repositories.AvatarRepository;
 import fr.moha.manga.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -14,9 +17,10 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TomeService tomeService;
+    @Autowired
+    AvatarRepository avatarRepository;
 
     // private User user;
 
@@ -73,7 +77,7 @@ public class UserService {
         Optional<User>  u = userRepository.findById(id);
         if(u.isPresent()) {
             User currentUser = u.get();
-
+            System.out.println(currentUser);
             String username = user.getUsername();
             if( username != null ) {
                 currentUser.setUsername(username);
@@ -85,6 +89,14 @@ public class UserService {
             String password = user.getPassword();
             if(password != null ){
                 currentUser.setPassword(password);
+            }
+            Avatar avatar = user.getAvatar();
+            if(avatar != null ) {
+                currentUser.setAvatar(avatarRepository.getById(avatar.getIdAvatar()));
+            }
+            Date dob = user.getDob();
+            if(dob != null ) {
+                currentUser.setDob(dob);
             }
             userRepository.save(currentUser);
         } else {

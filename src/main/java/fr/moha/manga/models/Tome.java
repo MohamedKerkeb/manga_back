@@ -9,8 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.sql.Date;
+import java.util.*;
 import java.util.List;
 
 @Entity
@@ -27,6 +26,7 @@ public class Tome {
     @Column(name = "number_of_page")
     private int nop;
     private String cover;
+    @Temporal(TemporalType.DATE)
     private Date date_release;
 
 
@@ -36,10 +36,11 @@ public class Tome {
     @JsonBackReference
     private List<User> userList = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "manga_id")
-    @JsonIgnoreProperties({"titleEn", "titleJp", "cover","synopsis","year","endDate","author","typeList","editor","tomeList"})
-    private Manga manga;
+    private int mangaId;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "manga_id")
+//    @JsonIgnoreProperties({"titleEn", "titleJp", "cover","synopsis","year","endDate","author","typeList","editor","tomeList"})
+//    private Manga manga;
     //@JsonManagedReference
     // @JsonBackReference
     //@JsonIgnore
@@ -47,12 +48,14 @@ public class Tome {
 
 
 
-    public Tome(int number, int nop, String cover, Date date_release, Manga manga) {
+
+    public Tome(int number, int nop, String cover, Date date_release, int mangaId ) {
         this.number = number;
         this.nop = nop;
         this.cover = cover;
         this.date_release = date_release;
-        this.manga = manga;
+        //this.manga = manga; Manga manga
+        this.mangaId = mangaId;
     }
 
     public Tome() {
@@ -106,13 +109,21 @@ public class Tome {
         this.date_release = date_release;
     }
 
-    public void setManga(Manga manga) {
-        this.manga = manga;
+    public int getMangaId() {
+        return mangaId;
     }
 
-    public Manga getManga() {
-        return manga;
+    public void setMangaId(int mangaId) {
+        this.mangaId = mangaId;
     }
+
+//    public void setManga(Manga manga) {
+//        this.manga = manga;
+//    }
+//
+//    public Manga getManga() {
+//        return manga;
+//    }
 
     @Override
     public String toString() {

@@ -23,12 +23,10 @@ public class Author {
     @Column(name = "first_name")
     private String firstName;
 
-    @OneToMany(
-            mappedBy = "author"
-    )
-    @JsonIgnoreProperties("manga")
-    @JsonBackReference
-    private List<Manga> mangaList = new ArrayList<>();
+//    @OneToMany
+//    @JsonIgnoreProperties("manga")
+//    @JsonBackReference
+//    private List<Manga> mangaList = new ArrayList<>();
 
     public Author(String lastName, String firstName) {
         this.lastName = lastName;
@@ -62,23 +60,21 @@ public class Author {
         this.firstName = firstName;
     }
 
-    public List<Manga> getMangaList() {
-        return mangaList;
-    }
+//    public List<Manga> getMangaList() {
+//        return mangaList;
+//    }
+//
+//    public void setMangaList(List<Manga> mangaList) {
+//        this.mangaList = mangaList;
+//    }
 
-    public void setMangaList(List<Manga> mangaList) {
-        this.mangaList = mangaList;
-    }
-
-    public void addManga(Manga manga) {
-        mangaList.add(manga);
-        manga.setAuthor(this);
-    }
-
-    public void removeManga(Manga manga) {
-        mangaList.remove(manga);
-        manga.setAuthor(null);
-    }
+//    public void addManga(Manga manga) {
+//        mangaList.add(manga);
+//    }
+//
+//    public void removeManga(Manga manga) {
+//        mangaList.remove(manga);
+//    }
 
     @Override
     public String toString() {
@@ -86,7 +82,6 @@ public class Author {
                 "id=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
-                ", mangaList=" + mangaList +
                 '}';
     }
 }

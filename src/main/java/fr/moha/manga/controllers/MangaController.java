@@ -1,10 +1,12 @@
 package fr.moha.manga.controllers;
 
+import fr.moha.manga.dto.MangaDto;
 import fr.moha.manga.models.Author;
 import fr.moha.manga.models.Manga;
 import fr.moha.manga.repositories.AuthorRepository;
 import fr.moha.manga.services.MangaService;
 import fr.moha.manga.services.TomeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +26,8 @@ public class MangaController {
     private MangaService mangaService;
     @Autowired
     private AuthorRepository authorRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @GetMapping("/all")
@@ -51,12 +55,20 @@ public class MangaController {
 //        }
 //    }
 
+//    @PostMapping(value = "/add", consumes = {"application/json"})
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<MangaDto> postMangaDto(@RequestBody Manga manga) {
+//        MangaDto mangaDto = modelMapper.map(manga, MangaDto.class);
+//        System.out.println(mangaDto.toString());
+//        Manga newManga = mangaService.addNewManga(mangaDto);
+//        return new ResponseEntity<>(newManga, HttpStatus.CREATED);
+//    }
 
     @PostMapping(value = "/add", consumes={"application/json"})
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Manga> createManga( @RequestBody Manga manga) {
-        Author author = authorRepository.getById(manga.getAuthor().getId());
-        System.out.println("author" + author.toString());
+    public ResponseEntity<Manga> createManga(@RequestBody Manga manga) {
+       // Author author = authorRepository.getById(manga.getAuthor().getId());
+        //System.out.println("author" + author.toString());
         Manga newManga = mangaService.addNewManga(manga);
        return new ResponseEntity<>(newManga, HttpStatus.CREATED);
     }

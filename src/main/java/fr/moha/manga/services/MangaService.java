@@ -1,7 +1,11 @@
 package fr.moha.manga.services;
 
+import fr.moha.manga.dto.MangaDto;
+import fr.moha.manga.models.Author;
 import fr.moha.manga.models.Manga;
+import fr.moha.manga.repositories.AuthorRepository;
 import fr.moha.manga.repositories.MangaRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,10 @@ import java.util.Optional;
 public class MangaService {
     @Autowired
     private MangaRepository mangaRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public List<Manga> getAllManga() {
         List<Manga> mangas = new ArrayList<>();
@@ -37,6 +45,9 @@ public class MangaService {
         if(mangaOptional.isPresent()) {
             throw new IllegalStateException("manga exist");
         }
+//        Author author = authorRepository.getById(1);
+//        manga.setAuthor(author);
+        System.out.println(mangaOptional.toString());
         mangaRepository.save(manga);
         return manga;
     }
@@ -45,4 +56,5 @@ public class MangaService {
         Optional<Manga> mangas = mangaRepository.findByTitleEn(manga_title);
         return mangas;
     }
+
 }

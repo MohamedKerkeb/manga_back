@@ -21,12 +21,12 @@ public class Editor {
     private String name;
     private String link;
 
-     @OneToMany(
-             mappedBy = "editor"
-     )
-//    @JsonIgnoreProperties("manga")
-     @JsonBackReference
-     private List<Manga> mangaList = new ArrayList<>();
+//     @OneToMany(
+//             mappedBy = "editor"
+//     )
+////    @JsonIgnoreProperties("manga")
+//     @JsonBackReference
+//     private List<Manga> mangaList = new ArrayList<>();
 
     public Editor(String name, String link) {
         this.name = name;
@@ -60,11 +60,11 @@ public class Editor {
         this.link = link;
     }
 
-    public List<Manga> getMangaList() {
-        return mangaList;
-    }
-
-    public void setMangaList(List<Manga> mangaList) {
-        this.mangaList = mangaList;
-    }
+//    public List<Manga> getMangaList() {
+//        return mangaList;
+//    }
+//
+//    public void setMangaList(List<Manga> mangaList) {
+//        this.mangaList = mangaList;
+//    }
 }

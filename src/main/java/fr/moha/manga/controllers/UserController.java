@@ -106,14 +106,15 @@ public class UserController {
 
     /**
      *  update user
-     * @param id
+     * @param user_id
      * @param user
      * @return
      */
     @PutMapping("/{user_id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<User> updateUser(@PathVariable final Long id, @RequestBody User user) {
-        User updateUser = userService.updateUser(id, user);
+    public ResponseEntity<User> updateUser(@PathVariable final Long user_id, @RequestBody User user) {
+        User updateUser = userService.updateUser(user_id, user);
+        System.out.println(updateUser);
         return new ResponseEntity<>(updateUser,HttpStatus.OK);
     }
 
@@ -123,8 +124,7 @@ public class UserController {
         userService.deleteUserById(user_id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
+    
     /**
      * Get All tomes of one user
      * @param user_id
